@@ -61,7 +61,7 @@ implementation
 
 constructor TRoom.createRoom(roomName: string);
 begin
-  self.roomName_ := roomName;
+  self.setRoomName(roomName);
   self.setWhereAmI('Sie befinden sich in: ' + self.getRoomName() + '.');
   self.setDescriptionEntered('In diesem Raum ist bereits alles erledigt.');
   self.setIsEntered(False);
