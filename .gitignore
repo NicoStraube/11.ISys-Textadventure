@@ -1,5 +1,11 @@
+# idea
+.idea
+
+# lazarus
 /backup
 /lib
+*.exe
+
+# custom
 /Aufgabe
 
-*.exe
