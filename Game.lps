@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="21"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="198"/>
       </Unit0>
       <Unit1>
         <Filename Value="ugame.pas"/>
@@ -19,11 +19,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="50"/>
         <CursorPos X="14" Y="155"/>
         <FoldState Value=" T3i90?017i"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="198"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,10 +30,12 @@
         <Filename Value="uroom.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="URoom"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos Y="184"/>
-        <FoldState Value=" T3iI06Lq"/>
-        <UsageCount Value="196"/>
+        <TopLine Value="49"/>
+        <CursorPos X="57" Y="66"/>
+        <FoldState Value=" T3iS03Kr"/>
+        <UsageCount Value="198"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
