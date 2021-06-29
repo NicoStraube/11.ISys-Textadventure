@@ -38,6 +38,7 @@ type
     procedure buttonWestClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure changeRoom(toRoom: TRoom);
+    function isEntryAllowed(toRoom: TRoom): boolean;
     // procedure drawInitialMap();
     // procedure updateMap();
   private
@@ -155,6 +156,15 @@ begin
 end;
 
 
+// isEntryAllowed
+function TForm1.isEntryAllowed(toRoom: TRoom): boolean;
+begin
+  if ((not toRoom.requiresKeyCard()) or (labelInventory2.Caption <> '')) then
+    Result := True
+  else
+    Result := False;
+end;
+
 // changeRoom
 procedure TForm1.changeRoom(toRoom: TRoom);
 begin
@@ -185,22 +195,26 @@ begin
 
   // imageContainer.Refresh;
 
-  if (currentRoom.getRoomNorth() <> nil) then
+  if ((currentRoom.getRoomNorth() <> nil) and
+    isEntryAllowed(currentRoom.getRoomNorth())) then
     buttonNorth.Enabled := True
   else
     buttonNorth.Enabled := False;
 
-  if (currentRoom.getRoomEast() <> nil) then
+  if ((currentRoom.getRoomEast() <> nil) and
+    isEntryAllowed(currentRoom.getRoomEast())) then
     buttonEast.Enabled := True
   else
     buttonEast.Enabled := False;
 
-  if (currentRoom.getRoomSouth() <> nil) then
+  if ((currentRoom.getRoomSouth() <> nil) and
+    isEntryAllowed(currentRoom.getRoomSouth())) then
     buttonSouth.Enabled := True
   else
     buttonSouth.Enabled := False;
 
-  if (currentRoom.getRoomWest() <> nil) then
+  if ((currentRoom.getRoomWest() <> nil) and
+    isEntryAllowed(currentRoom.getRoomWest())) then
     buttonWest.Enabled := True
   else
     buttonWest.Enabled := False;
