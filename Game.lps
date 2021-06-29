@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="117"/>
+        <TopLine Value="334"/>
         <CursorPos X="98" Y="135"/>
         <FoldState Value=" T3kU0O114b"/>
         <UsageCount Value="200"/>
@@ -31,8 +31,8 @@
         <Filename Value="uroom.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="URoom"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="67"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="25"/>
         <CursorPos Y="105"/>
         <FoldState Value=" T3ie03L14j"/>
         <UsageCount Value="200"/>
@@ -56,11 +56,10 @@
       </Unit4>
       <Unit5>
         <Filename Value="C:\lazarus\lcl\include\fpimagebitmap.inc"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="123"/>
         <CursorPos Y="141"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\lcl\include\picture.inc"/>
