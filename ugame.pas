@@ -48,6 +48,8 @@ type
 
 var
   Form1: TForm1;
+  // represents at which room the last successful action was performed. (keep track, not required at this point)
+  step: integer = -1;
 
   // rooms
   rooms: array [0..5] of TRoom;
@@ -62,12 +64,12 @@ implementation
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   // Create the rooms
-  street := TRoom.createRoom('Straße');
-  reception := TRoom.createRoom('Rezeption');
-  guestRoom := TRoom.createRoom('Gästezimmer');
-  bathRoom := TRoom.createRoom('Badezimmer');
-  pool := TRoom.createRoom('Pool');
-  diningHall := TRoom.createRoom('Speisesaal');
+  street := TRoom.createRoom('Straße', 0);
+  reception := TRoom.createRoom('Rezeption', 1);
+  guestRoom := TRoom.createRoom('Gästezimmer', 2);
+  bathRoom := TRoom.createRoom('Badezimmer', 3);
+  pool := TRoom.createRoom('Pool', 4);
+  diningHall := TRoom.createRoom('Speisesaal', 5);
 
   // Assign the rooms to an individual place in the array
   rooms[0] := street;
@@ -82,8 +84,10 @@ begin
   street.setDescription(
     'Sie sind nach einer langen Reise an Ihrem Hotel angekommen, nehmen Sie Ihr Gepäck und schauen Sie sich etwas um.');
   street.setDescriptionEntered(
-    'Sie haben Ihr Gepäck bereits von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
+    'Ihr Gepäck wurde von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
   street.setMapPosition('3;5');
+  street.setHasItem(True);
+  street.setRequiresKeyCard(False);
 
   reception.setAdjoiningRooms(guestRoom, diningHall, street, pool);
   reception.setDescription(
@@ -91,36 +95,49 @@ begin
   reception.setDescriptionEntered(
     'Sie haben eingecheckt und Ihre Schlüsselkarte bereits erhalten. Sie können sich weiter im Hotel umschauen.');
   reception.setMapPosition('3;4');
+  reception.setHasItem(True);
+  reception.setRequiresKeyCard(False);
 
   guestRoom.setAdjoiningRooms(bathroom, nil, reception, nil);
   guestRoom.setDescription(
-    'Sie können nun Ihre Koffer ablegen. \nSie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
-  guestRoom.setDescriptionEntered('Hier gibt es nichts mehr zu tun.');
+    'Sie können nun Ihre Koffer ablegen.');
+  guestRoom.setDescriptionEntered(
+    'Sie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
   guestRoom.setMapPosition('3;3');
+  guestRoom.setHasItem(False);
+  guestRoom.setRequiresKeyCard(True);
 
   bathRoom.setAdjoiningRooms(nil, nil, guestRoom, nil);
   bathRoom.setDescription(
     'Auf dem Waschbecken liegt ein frisches Handtuch, Sie können es aufnehmen.');
   bathRoom.setDescriptionEntered('Sie haben Ihr Handtuch bereits abgeholt.');
   bathRoom.setMapPosition('3;2');
+  bathRoom.setHasItem(True);
+  bathROom.setRequiresKeyCard(True);
 
   pool.setAdjoiningRooms(nil, reception, nil, nil);
   pool.setDescription(
     'Der Pool sieht super aus, reservieren Sie eine Liege mit Ihrem Handtuch.');
   pool.setDescriptionEntered(
-    'Sie haben Ihren Platz reserviert und können später baden gehen. \nNun verspühren Sie plötzlich ein Grummeln im Magen, Sie sollten den Speisesaal aufsuchen.');
+    'Sie haben Ihren Platz reserviert und können später baden gehen. \nDurch Ihre Anreise fühlen Sie sich nun sehr erschöpft, suchen Sie den Speisesaal auf.');
   pool.setMapPosition('2;4');
+  pool.setHasItem(False);
+  pool.setRequiresKeyCard(True);
 
   diningHall.setAdjoiningRooms(nil, nil, nil, reception);
   diningHall.setDescription(
     'Mhhhm, hier duftet es wunderbar, all das leckere Essen.');
-  diningHall.setDescriptionEntered('-');
+  diningHall.setDescriptionEntered(
+    'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. :)');
   diningHall.setMapPosition('4;4');
+  diningHall.setHasItem(False);
+  diningHall.setRequiresKeyCard(True);
 
   // Welcome text
   memo.Lines.Add('Hallo, willkommen im Textadventure.');
   memo.Lines.Add('-----');
   memo.Lines.Add('Bewegen Sie sich, indem Sie die untenstehenden Knöpfe nutzen.');
+  memo.Lines.Add('Um zu interagieren, dücken Sie bitte auf "Aktion".');
   memo.Lines.Add('Um zu starten, dücken Sie bitte auf "Start".');
 
   // Prevent interactions before start
@@ -177,8 +194,7 @@ begin
 
   memo.Lines.Add(currentRoom.getWhereAmI().Replace('\n', #13#10));
 
-  imageContainer.Picture.CleanupInstance;
-  // maybe set size with #picture.bitmap.setSize(x,y)
+  imageContainer.Picture.Assign(nil);
   if (currentRoom.isEntered()) then
   begin
     memo.Lines.Add(currentRoom.getDescriptionEntered().Replace('\n', #13#10));
@@ -218,22 +234,15 @@ begin
     buttonWest.Enabled := False;
 end;
 
-
 // start
 procedure TForm1.buttonStartClick(Sender: TObject);
 begin
   memo.Lines.Clear;
   buttonStart.Enabled := False;
   buttonAction.Enabled := True;
-  buttonReset.Enabled := True;
+  // buttonReset.Enabled := True;
 
   changeRoom(street);
-
-  { imageContainer.Picture.Bitmap.SetSize(currentRoom.getRoomImage().Width,
-    currentRoom.getRoomImage().Height);
-  imageContainer.Picture.Bitmap.Canvas.Draw(0, 0, currentRoom.getRoomImage().Bitmap);
-
-  imageContainer.Refresh; }
 end;
 
 
@@ -261,11 +270,99 @@ begin
   changeRoom(currentRoom.getRoomWest());
 end;
 
+
 // Action
 procedure TForm1.buttonActionClick(Sender: TObject);
 begin
-  if (not currentRoom.isEntered()) then
-    currentRoom.setIsEntered(True);
+  // street -> take luggage
+  // reception -> take keycard
+  case currentRoom.getRoomId() of
+    // street:0
+    0:
+    begin
+      if (not currentRoom.isEntered()) then
+      begin
+        inventoryItem1Image.Picture.LoadFromFile(GetCurrentDir +
+          '\assets\images\00luggage.jpg');
+        labelInventory1.Caption := 'Gepäck';
+
+        currentRoom.setIsEntered(True);
+        Inc(step);
+      end;
+    end;
+    // reception:1
+    1:
+    begin
+      begin
+        if (not currentRoom.isEntered()) then
+        begin
+          inventoryItem2Image.Picture.LoadFromFile(GetCurrentDir +
+            '\assets\images\01keycard.jpg');
+          labelInventory2.Caption := 'Schlüsselkarte';
+
+          currentRoom.setIsEntered(True);
+          Inc(step);
+        end;
+      end;
+    end;
+    // guestRoom:2
+    2:
+    begin
+      if (not currentRoom.isEntered()) then
+      begin
+        if (labelInventory1.Caption <> 'Gepäck') then
+        begin
+          // Call changeRoom here because the procedure is ended at this point (I dont know, why I did that O.o)
+          // changeRoom(currentRoom);
+          exit;
+        end;
+
+        inventoryItem1Image.Picture.Assign(nil);
+        labelInventory1.Caption := '';
+
+        currentRoom.setIsEntered(True);
+        Inc(step);
+      end;
+    end;
+    // bathRoom:3
+    3:
+    begin
+      if (not currentRoom.isEntered()) then
+      begin
+        inventoryItem3Image.Picture.LoadFromFile(GetCurrentDir +
+          '\assets\images\02towel.jpg');
+        labelInventory3.Caption := 'Handtuch';
+
+        currentRoom.setIsEntered(True);
+        Inc(step);
+      end;
+    end;
+    // pool:4
+    4:
+    begin
+      if (labelInventory3.Caption <> 'Handtuch') then
+        exit;
+
+      inventoryItem3Image.Picture.Assign(nil);
+      labelInventory3.Caption := '';
+
+      currentRoom.setIsEntered(True);
+      Inc(step);
+    end;
+    // diningHall:5
+    5:
+    begin
+      if (step <> 4) then
+      begin
+        ShowMessage('Sie können das Spiel noch nicht beenden, es gibt noch Dinge zu erledigen.');
+        exit;
+      end;
+
+      buttonAction.Enabled := False;
+      currentRoom.setIsEntered(True);
+    end;
+  end;
+
   changeRoom(currentRoom);
 end;
 

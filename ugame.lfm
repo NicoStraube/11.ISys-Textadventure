@@ -82,18 +82,24 @@ object Form1: TForm1
     Height = 35
     Top = 280
     Width = 35
+    Proportional = True
+    Stretch = True
   end
   object inventoryItem2Image: TImage
     Left = 32
     Height = 35
     Top = 320
     Width = 35
+    Proportional = True
+    Stretch = True
   end
   object inventoryItem3Image: TImage
     Left = 32
     Height = 35
     Top = 360
     Width = 35
+    Proportional = True
+    Stretch = True
   end
   object labelInventory: TLabel
     Left = 32
@@ -120,7 +126,7 @@ object Form1: TForm1
   object labelInventory3: TLabel
     Left = 73
     Height = 1
-    Top = 371
+    Top = 367
     Width = 1
     ParentColor = False
   end
