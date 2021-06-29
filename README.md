@@ -1,7 +1,7 @@
 # 11.ISys-Textadventure
  Project for ISys-11, Textadventure
 
-> There are no known bugs for the release. It is a beta release, errors can still occur. The minimum requirements for this task are met with #2.
+There are no known bugs for the release. It is a beta release, errors can still occur. The minimum requirements for this task are met.
 
 <hr>
 
