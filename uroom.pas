@@ -13,18 +13,23 @@ type
   TRoom = class(TObject)
 
   private
+    roomId_: integer;
     roomName_, whereAmI_, description_, descriptionEntered_: string;
     north_, east_, south_, west_: TRoom;
     mapPosition_: string;
     isEntered_, hasItem_, requiresKeyCard_: boolean;
     roomImage_, roomItemImage_: TPicture;
 
+    procedure setRoomId(roomId: integer);
+
     procedure setWhereAmI(whereAmI: string);
 
   public
-    constructor createRoom(roomName: string);
+    constructor createRoom(roomName: string; roomId: integer);
     procedure setRoomName(roomName: string);
     function getRoomName(): string;
+
+    function getRoomId(): integer;
 
     function getWhereAmI(): string;
 
@@ -65,9 +70,10 @@ type
 implementation
 
 
-constructor TRoom.createRoom(roomName: string);
+constructor TRoom.createRoom(roomName: string; roomId: integer);
 begin
   self.setRoomName(roomName);
+  self.setRoomId(roomId);
   self.setWhereAmI('Sie befinden sich in: ' + self.getRoomName() + ' \n-----');
   self.setDescriptionEntered('In diesem Raum ist bereits alles erledigt.');
   self.setIsEntered(False);
@@ -83,6 +89,18 @@ end;
 function TRoom.getRoomName(): string;
 begin
   Result := self.roomName_;
+end;
+
+
+// roomId
+procedure TRoom.setRoomId(roomId: integer);
+begin
+  self.roomId_ := roomId;
+end;
+
+function TRoom.getRoomId(): integer;
+begin
+  Result := self.roomId_;
 end;
 
 
