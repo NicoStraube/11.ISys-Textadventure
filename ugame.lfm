@@ -1,11 +1,11 @@
 object Form1: TForm1
   Left = 228
-  Height = 371
+  Height = 403
   Top = 163
-  Width = 910
+  Width = 928
   Caption = 'Game'
-  ClientHeight = 371
-  ClientWidth = 910
+  ClientHeight = 403
+  ClientWidth = 928
   OnCreate = FormCreate
   LCLVersion = '2.0.12.0'
   object memo: TMemo
@@ -55,7 +55,7 @@ object Form1: TForm1
   object buttonStart: TButton
     Left = 304
     Height = 25
-    Top = 168
+    Top = 144
     Width = 75
     Caption = 'Start'
     OnClick = buttonStartClick
@@ -72,9 +72,64 @@ object Form1: TForm1
   end
   object imageContainer: TImage
     Left = 416
-    Height = 328
+    Height = 368
     Top = 16
-    Width = 472
+    Width = 496
     Proportional = True
+  end
+  object inventoryItem1Image: TImage
+    Left = 32
+    Height = 35
+    Top = 280
+    Width = 35
+  end
+  object inventoryItem2Image: TImage
+    Left = 32
+    Height = 35
+    Top = 320
+    Width = 35
+  end
+  object inventoryItem3Image: TImage
+    Left = 32
+    Height = 35
+    Top = 360
+    Width = 35
+  end
+  object labelInventory: TLabel
+    Left = 32
+    Height = 15
+    Top = 253
+    Width = 200
+    Caption = 'Deine aufgenommenen Gegenstände:'
+    ParentColor = False
+  end
+  object labelInventory1: TLabel
+    Left = 73
+    Height = 1
+    Top = 290
+    Width = 1
+    ParentColor = False
+  end
+  object labelInventory2: TLabel
+    Left = 73
+    Height = 1
+    Top = 330
+    Width = 1
+    ParentColor = False
+  end
+  object labelInventory3: TLabel
+    Left = 73
+    Height = 1
+    Top = 371
+    Width = 1
+    ParentColor = False
+  end
+  object buttonReset: TButton
+    Left = 304
+    Height = 25
+    Top = 192
+    Width = 75
+    Caption = 'Reset'
+    TabOrder = 7
   end
 end

@@ -6,20 +6,28 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, URoom;
+  ExtCtrls, ComCtrls, URoom;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    buttonReset: TButton;
     buttonAction: TButton;
     buttonStart: TButton;
     buttonEast: TButton;
     buttonSouth: TButton;
     buttonWest: TButton;
     buttonNorth: TButton;
+    inventoryItem1Image: TImage;
+    inventoryItem2Image: TImage;
+    inventoryItem3Image: TImage;
     imageContainer: TImage;
+    labelInventory3: TLabel;
+    labelInventory2: TLabel;
+    labelInventory1: TLabel;
+    labelInventory: TLabel;
     memo: TMemo;
     procedure buttonActionClick(Sender: TObject);
     procedure buttonEastClick(Sender: TObject);
@@ -121,6 +129,7 @@ begin
   buttonSouth.Enabled := False;
   buttonWest.Enabled := False;
   buttonAction.Enabled := False;
+  buttonReset.Enabled := False;
 
   // Load images and store in room-object (maybe implement caching in a future release)
   // loadImages();
@@ -216,6 +225,7 @@ begin
   memo.Lines.Clear;
   buttonStart.Enabled := False;
   buttonAction.Enabled := True;
+  buttonReset.Enabled := True;
 
   changeRoom(street);
 
