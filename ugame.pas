@@ -24,7 +24,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, ComCtrls, URoom;
+  ExtCtrls, ComCtrls, Grids, URoom;
 
 type
 
@@ -42,12 +42,14 @@ type
     inventoryItem2Image: TImage;
     inventoryItem3Image: TImage;
     imageContainer: TImage;
+    labelMap: TLabel;
     labelAuthorInfo: TLabel;
     labelInventory3: TLabel;
     labelInventory2: TLabel;
     labelInventory1: TLabel;
     labelInventory: TLabel;
     memo: TMemo;
+    stringGrid: TStringGrid;
     procedure buttonActionClick(Sender: TObject);
     procedure buttonEastClick(Sender: TObject);
     procedure buttonNorthClick(Sender: TObject);
@@ -59,6 +61,8 @@ type
     procedure changeRoom(toRoom: TRoom);
     function isEntryAllowed(toRoom: TRoom): boolean;
     procedure initGame();
+    procedure stringGridPrepareCanvas(Sender: TObject; aCol, aRow: integer;
+      aState: TGridDrawState);
     // procedure drawInitialMap();
     // procedure updateMap();
   private
@@ -119,7 +123,7 @@ begin
     'Sie sind nach einer langen Reise an Ihrem Hotel angekommen, nehmen Sie Ihr Gepäck und schauen Sie sich etwas um.');
   street.setDescriptionEntered(
     'Ihr Gepäck wurde von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
-  street.setMapPosition('3;5');
+  street.setMapPosition('2;4');
   street.setIsEntered(False);
   street.setHasItem(True);
   street.setRequiresKeyCard(False);
@@ -129,7 +133,7 @@ begin
     'Checken Sie ein und nehmen Sie Ihre Schlüsselkarte entgegen.');
   reception.setDescriptionEntered(
     'Sie haben eingecheckt und Ihre Schlüsselkarte bereits erhalten. Sie können sich weiter im Hotel umschauen.');
-  reception.setMapPosition('3;4');
+  reception.setMapPosition('2;3');
   reception.setIsEntered(False);
   reception.setHasItem(True);
   reception.setRequiresKeyCard(False);
@@ -139,7 +143,7 @@ begin
     'Sie können nun Ihre Koffer ablegen.');
   guestRoom.setDescriptionEntered(
     'Sie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
-  guestRoom.setMapPosition('3;3');
+  guestRoom.setMapPosition('2;2');
   guestRoom.setIsEntered(False);
   guestRoom.setHasItem(False);
   guestRoom.setRequiresKeyCard(True);
@@ -148,7 +152,7 @@ begin
   bathRoom.setDescription(
     'Auf dem Waschbecken liegt ein frisches Handtuch, Sie können es aufnehmen.');
   bathRoom.setDescriptionEntered('Sie haben Ihr Handtuch bereits abgeholt.');
-  bathRoom.setMapPosition('3;2');
+  bathRoom.setMapPosition('2;1');
   bathRoom.setIsEntered(False);
   bathRoom.setHasItem(True);
   bathRoom.setRequiresKeyCard(True);
@@ -158,7 +162,7 @@ begin
     'Der Pool sieht super aus, reservieren Sie eine Liege mit Ihrem Handtuch.');
   pool.setDescriptionEntered(
     'Sie haben Ihren Platz reserviert und können später baden gehen. \nDurch Ihre Anreise fühlen Sie sich nun sehr erschöpft, suchen Sie den Speisesaal auf.');
-  pool.setMapPosition('2;4');
+  pool.setMapPosition('1;3');
   pool.setIsEntered(False);
   pool.setHasItem(False);
   pool.setRequiresKeyCard(True);
@@ -168,7 +172,7 @@ begin
     'Mhhhm, hier duftet es wunderbar, all das leckere Essen.');
   diningHall.setDescriptionEntered(
     'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. :)');
-  diningHall.setMapPosition('4;4');
+  diningHall.setMapPosition('3;3');
   diningHall.setIsEntered(False);
   diningHall.setHasItem(False);
   diningHall.setRequiresKeyCard(True);
@@ -188,6 +192,32 @@ begin
 
   buttonAction.Enabled := False;
   buttonReset.Enabled := False;
+end;
+
+// Responsible for the display of the map
+procedure TForm1.stringGridPrepareCanvas(Sender: TObject; aCol, aRow: integer;
+  aState: TGridDrawState);
+var
+  grid: TStringGrid;
+  tmpRoom: TRoom;
+  indexX, indexY: integer;
+
+begin
+  grid := Sender as TStringGrid;
+
+  for tmpRoom in rooms do
+  begin
+    indexX := StrToInt(tmpRoom.getMapPosition().Split(';')[0]);
+    indexY := StrToInt(tmpRoom.getMapPosition().Split(';')[1]);
+    if ((aCol = indexX) and (aRow = indexY)) then
+    begin
+      if (isEntryAllowed(tmpRoom)) then
+        if (tmpRoom.Equals(currentRoom)) then
+          grid.Canvas.Brush.Color := clGreen
+        else
+          grid.canvas.Brush.Color := clGray;
+    end;
+  end;
 end;
 
 
@@ -216,6 +246,7 @@ begin
   inventoryItem3Image.Picture.Assign(nil);
 
   initGame();
+  stringGrid.Refresh;
   buttonStart.Enabled := True;
 end;
 
@@ -239,6 +270,7 @@ begin
     Close;
 
   memo.Lines.Add(currentRoom.getWhereAmI().Replace('\n', #13#10));
+  stringGrid.Refresh;
 
   imageContainer.Picture.Assign(nil);
   if (currentRoom.isEntered()) then

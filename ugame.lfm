@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 228
+  Left = 848
   Height = 403
-  Top = 163
+  Top = 167
   Width = 928
   Caption = 'Game'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 403
+  ClientWidth = 928
   OnCreate = FormCreate
   LCLVersion = '2.0.12.0'
   object memo: TMemo
@@ -153,5 +153,27 @@ object Form1: TForm1
     Font.Quality = fqDraft
     ParentColor = False
     ParentFont = False
+  end
+  object stringGrid: TStringGrid
+    Left = 282
+    Height = 97
+    Top = 286
+    Width = 82
+    DefaultColWidth = 16
+    DefaultRowHeight = 16
+    FixedCols = 0
+    FixedRows = 0
+    RowCount = 6
+    ScrollBars = ssNone
+    TabOrder = 8
+    OnPrepareCanvas = stringGridPrepareCanvas
+  end
+  object labelMap: TLabel
+    Left = 272
+    Height = 15
+    Top = 253
+    Width = 99
+    Caption = 'Karte des Gebietes:'
+    ParentColor = False
   end
 end
