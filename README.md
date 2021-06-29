@@ -11,7 +11,7 @@ How to play the game:
 
 <hr>
 
-As of June 29th, 2021 at 22:50 pm AND small update from 23:05 pm:
+As of June 29th, 2021 at 22:50 pm AND small update from 23:00 pm:
 
 - It's now possible to see the current position on a map. This will only happen if the user can see the room. 
 - The rooms will only be displayed if the game has started.
