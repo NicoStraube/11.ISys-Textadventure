@@ -16,7 +16,7 @@ type
     roomName_, whereAmI_, description_, descriptionEntered_: string;
     north_, east_, south_, west_: TRoom;
     mapPosition_: string;
-    isEntered_: boolean;
+    isEntered_, hasItem_, requiresKeyCard_: boolean;
     roomImage_, roomItemImage_: TPicture;
 
     procedure setWhereAmI(whereAmI: string);
@@ -46,6 +46,12 @@ type
 
     procedure setIsEntered(isEntered: boolean);
     function isEntered(): boolean;
+
+    procedure setHasItem(hasItem: boolean);
+    function hasItem(): boolean;
+
+    procedure setRequiresKeyCard(requiresKeyCard: boolean);
+    function requiresKeyCard(): boolean;
 
     procedure setRoomImage(roomImage: TPicture);
     procedure setRoomItemImage(roomItemImage: TPicture);
@@ -167,6 +173,28 @@ end;
 function TRoom.isEntered(): boolean;
 begin
   Result := self.isEntered_;
+end;
+
+// hasItem
+procedure TRoom.setHasItem(hasItem: boolean);
+begin
+  self.hasItem_ := hasItem;
+end;
+
+function TRoom.hasItem(): boolean;
+begin
+  Result := self.hasItem_;
+end;
+
+// requiresKeyCard
+procedure TRoom.setRequiresKeyCard(requiresKeyCard: boolean);
+begin
+  self.requiresKeyCard_ := requiresKeyCard;
+end;
+
+function TRoom.requiresKeyCard(): boolean;
+begin
+  Result := requiresKeyCard_;
 end;
 
 
