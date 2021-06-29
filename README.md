@@ -7,7 +7,7 @@ There are no known bugs for the release. It is a beta release, errors can still 
 
 As of June 29th, 2021 at 16:10:
 
-- Rooms that have the value requiresKeyCard_ = true can no longer be entered without a key card
+- Rooms that have the value **requiresKeyCard_ = true** can no longer be entered without a key card
 
 <br>
 
