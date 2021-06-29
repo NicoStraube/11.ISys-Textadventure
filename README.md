@@ -7,7 +7,7 @@ As of June 29th, 2021 at 14:55 am:
 
 > There are no known bugs for the release. It is a beta release, errors can still occur. The minimum requirements for this task are met.
 - Every room can be entered freely
-- It can freely interact with any room
+- It can be interacted with any room
 
 <br>
 
