@@ -138,4 +138,19 @@ object Form1: TForm1
     Caption = 'Reset'
     TabOrder = 7
   end
+  object Label1: TLabel
+    Left = 810
+    Height = 15
+    Top = 386
+    Width = 100
+    Caption = 'Nico Straube, IW20'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clGray
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
 end

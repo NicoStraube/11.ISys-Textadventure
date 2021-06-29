@@ -24,6 +24,7 @@ type
     inventoryItem2Image: TImage;
     inventoryItem3Image: TImage;
     imageContainer: TImage;
+    Label1: TLabel;
     labelInventory3: TLabel;
     labelInventory2: TLabel;
     labelInventory1: TLabel;
