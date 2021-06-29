@@ -19,8 +19,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
-        <TopLine Value="121"/>
-        <CursorPos X="64" Y="169"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="83"/>
+        <CursorPos X="61" Y="108"/>
         <FoldState Value=" T3k40O024'"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -30,11 +31,10 @@
         <Filename Value="uroom.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="URoom"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="52"/>
-        <CursorPos X="69" Y="65"/>
-        <FoldState Value=" T3iS03Kr"/>
+        <CursorPos Y="62"/>
+        <FoldState Value=" T3iI06Lq"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit2>

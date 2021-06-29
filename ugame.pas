@@ -5,7 +5,8 @@ unit UGame;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, URoom;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, URoom;
 
 type
 
@@ -58,7 +59,7 @@ begin
   guestRoom := TRoom.createRoom('Gästezimmer');
   bathRoom := TRoom.createRoom('Badezimmer');
   pool := TRoom.createRoom('Pool');
-  diningHall := TRoom.createRoom('Speisehalle');
+  diningHall := TRoom.createRoom('Speisesaal');
 
   // Assign the rooms to an individual place in the array
   rooms[0] := street;
@@ -70,44 +71,43 @@ begin
 
   // Customize each room
   street.setAdjoiningRooms(reception, nil, nil, nil);
-  street.setDescription('Bringen Sie Ihre Koffer in das Hotel.');
-  street.setDescriptionEntered('Schauen Sie sich weiter im Hotel um.');
+  street.setDescription(
+    'Sie sind nach einer langen Reise an Ihrem Hotel angekommen, nehmen Sie Ihr Gepäck und schauen Sie sich etwas um.');
+  street.setDescriptionEntered(
+    'Sie haben Ihr Gepäck bereits von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
   street.setMapPosition('3;5');
 
   reception.setAdjoiningRooms(guestRoom, diningHall, street, pool);
   reception.setDescription(
-    'Checken Sie ein und gehen Sie in Ihr Gästezimmer.');
+    'Checken Sie ein und nehmen Sie Ihre Schlüsselkarte entgegen.');
   reception.setDescriptionEntered(
-    'Sie haben bereits eingecheckt und Ihre Schlüsselkarte erhalten. Schauen Sie sich weiter um.');
+    'Sie haben eingecheckt und Ihre Schlüsselkarte bereits erhalten. Sie können sich weiter im Hotel umschauen.');
   reception.setMapPosition('3;4');
 
   guestRoom.setAdjoiningRooms(bathroom, nil, reception, nil);
   guestRoom.setDescription(
-    'Stellen Sie nun Ihre Koffer ab. \n Sie haben Ihr Zimmer nun eingerichtet und wollen den Pool anschauen, besorgen Sie sich ein Handtuch.');
-  guestRoom.setDescriptionEntered('In Ihrem Raum haben Sie bereits alles erledigt.');
+    'Sie können nun Ihre Koffer ablegen. \nSie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
+  guestRoom.setDescriptionEntered('Hier gibt es nichts mehr zu tun.');
   guestRoom.setMapPosition('3;3');
 
   bathRoom.setAdjoiningRooms(nil, nil, guestRoom, nil);
   bathRoom.setDescription(
-    'Nehmen Sie sich ein Handtuch und reservieren Sie sich eine Liege.');
-  bathRoom.setDescriptionEntered('Sie haben sich bereits Ihr Handtuch genommen.');
+    'Auf dem Waschbecken liegt ein frisches Handtuch, Sie können es aufnehmen.');
+  bathRoom.setDescriptionEntered('Sie haben Ihr Handtuch bereits abgeholt.');
   bathRoom.setMapPosition('3;2');
 
   pool.setAdjoiningRooms(nil, reception, nil, nil);
   pool.setDescription(
     'Der Pool sieht super aus, reservieren Sie eine Liege mit Ihrem Handtuch.');
   pool.setDescriptionEntered(
-    'Sie haben Ihren Platz bereits reserviert. Sie sind nun hungrig und wollen essen.');
+    'Sie haben Ihren Platz reserviert und können später baden gehen. \nNun verspühren Sie plötzlich ein Grummeln im Magen, Sie sollten den Speisesaal aufsuchen.');
   pool.setMapPosition('2;4');
 
   diningHall.setAdjoiningRooms(nil, nil, nil, reception);
   diningHall.setDescription(
-    'Mhhhm, all das Essen sieht so köstlich aus. Es muss vorher aber noch etwas erledigt werden.');
+    'Mhhhm, hier duftet es wunderbar, all das leckere Essen.');
   diningHall.setDescriptionEntered('-');
   diningHall.setMapPosition('4;4');
-
-  // Load images and store in room-object
-  loadImages();
 
   // Welcome text
   memo.Lines.Add('Hallo, willkommen im Textadventure.');
@@ -122,9 +122,13 @@ begin
   buttonWest.Enabled := False;
   buttonAction.Enabled := False;
 
+  // Load images and store in room-object (maybe implement caching in a future release)
+  // loadImages();
+
   // Draw a map (not required, maybe in a future release)
   // drawInitialMap();
 end;
+
 
 // loadImages
 procedure TForm1.loadImages();
@@ -133,22 +137,23 @@ var
   picture: TPicture;
 begin
   picture := TPicture.Create;
-  { for tmpRoom in rooms do ;
+  for tmpRoom in rooms do ;
   begin
     try
-      picture.LoadFromFile('./assets/images/' + tmpRoom.getRoomName() +
-        '_' + '!entered.jpg');
+      picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
+        tmpRoom.getRoomName() + '_n-entered.jpg');
       tmpRoom.setRoomItemImage(picture);
     finally
       picture.Free;
     end;
-  end; }
-  try
-    // Load 1 picture and assign to room - testing
-    picture.LoadFromFile(GetCurrentDir + '\assets\images\Gästezimmer_!entered.jpg');
-    street.setRoomImage(picture);
-  finally
-    picture.Free;
+
+    try
+      picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
+        tmpRoom.getRoomName() + '_entered.jpg');
+      tmpRoom.setRoomImage(picture);
+    finally
+      picture.Free;
+    end;
   end;
 end;
 
@@ -161,14 +166,27 @@ begin
   if (currentRoom = nil) then
     Close;
 
-  memo.Lines.Add(currentRoom.getWhereAmI());
+  memo.Lines.Add(currentRoom.getWhereAmI().Replace('\n', #13#10));
+
+  imageContainer.Picture.CleanupInstance;
+  // maybe set size with #picture.bitmap.setSize(x,y)
   if (currentRoom.isEntered()) then
-    memo.Lines.Add(currentRoom.getDescriptionEntered())
+  begin
+    memo.Lines.Add(currentRoom.getDescriptionEntered().Replace('\n', #13#10));
+
+    imageContainer.Picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
+      currentRoom.getRoomName() + '_entered.jpg');
+  end
   else
   begin
-    memo.Lines.Add(currentRoom.getDescription());
+    memo.Lines.Add(currentRoom.getDescription().Replace('\n', #13#10));
+
+    imageContainer.Picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
+      currentRoom.getRoomName() + '_n-entered.jpg');
     // currentRoom.setIsEntered(True);
   end;
+
+  // imageContainer.Refresh;
 
   if (currentRoom.getRoomNorth() <> nil) then
     buttonNorth.Enabled := True
@@ -200,9 +218,14 @@ begin
   buttonAction.Enabled := True;
 
   changeRoom(street);
-  imageContainer.Picture.Assign(currentRoom.getRoomImage());
-  imageContainer.Refresh;
+
+  { imageContainer.Picture.Bitmap.SetSize(currentRoom.getRoomImage().Width,
+    currentRoom.getRoomImage().Height);
+  imageContainer.Picture.Bitmap.Canvas.Draw(0, 0, currentRoom.getRoomImage().Bitmap);
+
+  imageContainer.Refresh; }
 end;
+
 
 // North
 procedure TForm1.buttonNorthClick(Sender: TObject);
@@ -233,6 +256,7 @@ procedure TForm1.buttonActionClick(Sender: TObject);
 begin
   if (not currentRoom.isEntered()) then
     currentRoom.setIsEntered(True);
+  changeRoom(currentRoom);
 end;
 
 end.
