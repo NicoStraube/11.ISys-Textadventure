@@ -3,6 +3,12 @@
 
 > There are no known bugs for the release. It is a beta release, errors can still occur. The minimum requirements for this task are met.
 
+How to play the game:
+
+- First you need to download the latest version, found on the right under 'Releases'.
+- Then you need to open zip - the folder 'assets' **needs** to be in the same directory as the .exe!
+- At least you just need to open the .exe. Maybe your antivirus wants to block this but you can trust the application, there is no malicious code.
+
 <hr>
 
 As of June 29th, 2021 at 22:50 pm:
