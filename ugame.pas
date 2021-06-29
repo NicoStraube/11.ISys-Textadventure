@@ -63,8 +63,6 @@ type
     procedure initGame();
     procedure stringGridPrepareCanvas(Sender: TObject; aCol, aRow: integer;
       aState: TGridDrawState);
-    // procedure drawInitialMap();
-    // procedure updateMap();
   private
 
   public
