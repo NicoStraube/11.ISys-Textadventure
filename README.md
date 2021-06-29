@@ -7,7 +7,7 @@
 
 As of June 29th, 2021 at 22:50 pm:
 
-- It's now possible to see the current position on a map.
+- It's now possible to see the current position on a map. This will only happen if the user can see the room. 
 
 <br>
 
