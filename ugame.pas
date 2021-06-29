@@ -39,7 +39,6 @@ type
     procedure changeRoom(toRoom: TRoom);
     // procedure drawInitialMap();
     // procedure updateMap();
-    procedure loadImages();
   private
 
   public
@@ -48,7 +47,7 @@ type
 
 var
   Form1: TForm1;
-  // represents at which room the last successful action was performed. (keep track, not required at this point)
+  // Represents at which point the user is in the game
   step: integer = -1;
 
   // rooms
@@ -149,39 +148,11 @@ begin
   buttonReset.Enabled := False;
 
   // Load images and store in room-object (maybe implement caching in a future release)
-  // loadImages();
 
   // Draw a map (not required, maybe in a future release)
   // drawInitialMap();
 end;
 
-
-// loadImages
-procedure TForm1.loadImages();
-var
-  tmpRoom: TRoom;
-  picture: TPicture;
-begin
-  picture := TPicture.Create;
-  for tmpRoom in rooms do ;
-  begin
-    try
-      picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
-        tmpRoom.getRoomName() + '_n-entered.jpg');
-      tmpRoom.setRoomItemImage(picture);
-    finally
-      picture.Free;
-    end;
-
-    try
-      picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
-        tmpRoom.getRoomName() + '_entered.jpg');
-      tmpRoom.setRoomImage(picture);
-    finally
-      picture.Free;
-    end;
-  end;
-end;
 
 // changeRoom
 procedure TForm1.changeRoom(toRoom: TRoom);
@@ -274,8 +245,6 @@ end;
 // Action
 procedure TForm1.buttonActionClick(Sender: TObject);
 begin
-  // street -> take luggage
-  // reception -> take keycard
   case currentRoom.getRoomId() of
     // street:0
     0:
