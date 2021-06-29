@@ -87,12 +87,12 @@ implementation
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   // Create the rooms
-  street := TRoom.createRoom('Straße', 0);
-  reception := TRoom.createRoom('Rezeption', 1);
-  guestRoom := TRoom.createRoom('Gästezimmer', 2);
-  bathRoom := TRoom.createRoom('Badezimmer', 3);
-  pool := TRoom.createRoom('Pool', 4);
-  diningHall := TRoom.createRoom('Speisesaal', 5);
+  street := TRoom.createRoom('Straße', 0, '2;4');
+  reception := TRoom.createRoom('Rezeption', 1, '2;3');
+  guestRoom := TRoom.createRoom('Gästezimmer', 2, '2;2');
+  bathRoom := TRoom.createRoom('Badezimmer', 3, '2;1');
+  pool := TRoom.createRoom('Pool', 4, '1;3');
+  diningHall := TRoom.createRoom('Speisesaal', 5, '3;3');
 
   // Assign the rooms to an individual place in the array
   rooms[0] := street;
@@ -119,7 +119,6 @@ begin
     'Sie sind nach einer langen Reise an Ihrem Hotel angekommen, nehmen Sie Ihr Gepäck und schauen Sie sich etwas um.');
   street.setDescriptionEntered(
     'Ihr Gepäck wurde von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
-  street.setMapPosition('2;4');
   street.setIsEntered(False);
   street.setHasItem(True);
   street.setRequiresKeyCard(False);
@@ -129,7 +128,6 @@ begin
     'Checken Sie ein und nehmen Sie Ihre Schlüsselkarte entgegen.');
   reception.setDescriptionEntered(
     'Sie haben eingecheckt und Ihre Schlüsselkarte bereits erhalten. Sie können sich weiter im Hotel umschauen.');
-  reception.setMapPosition('2;3');
   reception.setIsEntered(False);
   reception.setHasItem(True);
   reception.setRequiresKeyCard(False);
@@ -139,7 +137,6 @@ begin
     'Sie können nun Ihre Koffer ablegen.');
   guestRoom.setDescriptionEntered(
     'Sie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
-  guestRoom.setMapPosition('2;2');
   guestRoom.setIsEntered(False);
   guestRoom.setHasItem(False);
   guestRoom.setRequiresKeyCard(True);
@@ -148,7 +145,6 @@ begin
   bathRoom.setDescription(
     'Auf dem Waschbecken liegt ein frisches Handtuch, Sie können es aufnehmen.');
   bathRoom.setDescriptionEntered('Sie haben Ihr Handtuch bereits abgeholt.');
-  bathRoom.setMapPosition('2;1');
   bathRoom.setIsEntered(False);
   bathRoom.setHasItem(True);
   bathRoom.setRequiresKeyCard(True);
@@ -158,7 +154,6 @@ begin
     'Der Pool sieht super aus, reservieren Sie eine Liege mit Ihrem Handtuch.');
   pool.setDescriptionEntered(
     'Sie haben Ihren Platz reserviert und können später baden gehen. \nDurch Ihre Anreise fühlen Sie sich nun sehr erschöpft, suchen Sie den Speisesaal auf.');
-  pool.setMapPosition('1;3');
   pool.setIsEntered(False);
   pool.setHasItem(False);
   pool.setRequiresKeyCard(True);
@@ -168,7 +163,6 @@ begin
     'Mhhhm, hier duftet es wunderbar, all das leckere Essen.');
   diningHall.setDescriptionEntered(
     'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. :)');
-  diningHall.setMapPosition('3;3');
   diningHall.setIsEntered(False);
   diningHall.setHasItem(False);
   diningHall.setRequiresKeyCard(True);
@@ -273,31 +267,29 @@ begin
   currentRoom := toRoom;
   memo.Lines.Clear;
 
+  // To prevent errors close application if room is null
   if (currentRoom = nil) then
     Close;
 
+  // Print where the user is currently at
   memo.Lines.Add(currentRoom.getWhereAmI().Replace('\n', #13#10));
   stringGrid.Refresh;
 
-  imageContainer.Picture.Assign(nil);
+  // Check if the user has already interacted with this room
   if (currentRoom.isEntered()) then
   begin
     memo.Lines.Add(currentRoom.getDescriptionEntered().Replace('\n', #13#10));
-
     imageContainer.Picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
       currentRoom.getRoomName() + '_entered.jpg');
   end
   else
   begin
     memo.Lines.Add(currentRoom.getDescription().Replace('\n', #13#10));
-
     imageContainer.Picture.LoadFromFile(GetCurrentDir + '\assets\images\' +
       currentRoom.getRoomName() + '_n-entered.jpg');
-    // currentRoom.setIsEntered(True);
   end;
 
-  // imageContainer.Refresh;
-
+  // Get the rooms of each direction and activate or deactivate the button depending on the conditions
   if ((currentRoom.getRoomNorth() <> nil) and
     isEntryAllowed(currentRoom.getRoomNorth())) then
     buttonNorth.Enabled := True

@@ -38,16 +38,17 @@ type
     isEntered_, hasItem_, requiresKeyCard_: boolean;
     roomImage_, roomItemImage_: TPicture;
 
+    procedure setRoomName(roomName: string);
     procedure setRoomId(roomId: integer);
+    procedure setMapPosition(mapPosition: string);
 
     procedure setWhereAmI(whereAmI: string);
 
   public
-    constructor createRoom(roomName: string; roomId: integer);
-    procedure setRoomName(roomName: string);
+    constructor createRoom(roomName: string; roomId: integer; mapPosition: string);
     function getRoomName(): string;
-
     function getRoomId(): integer;
+    function getMapPosition(): string;
 
     function getWhereAmI(): string;
 
@@ -56,9 +57,6 @@ type
 
     procedure setDescriptionEntered(descriptionEntered: string);
     function getDescriptionEntered(): string;
-
-    procedure setMapPosition(mapPosition: string);
-    function getMapPosition(): string;
 
     procedure setAdjoiningRooms(north, east, south, west: TRoom);
 
@@ -88,10 +86,11 @@ type
 implementation
 
 
-constructor TRoom.createRoom(roomName: string; roomId: integer);
+constructor TRoom.createRoom(roomName: string; roomId: integer; mapPosition: string);
 begin
   self.setRoomName(roomName);
   self.setRoomId(roomId);
+  self.setMapPosition(mapPosition);
   self.setWhereAmI('Sie befinden sich in: ' + self.getRoomName() + ' \n-----');
   self.setDescriptionEntered('In diesem Raum ist bereits alles erledigt.');
   self.setIsEntered(False);
