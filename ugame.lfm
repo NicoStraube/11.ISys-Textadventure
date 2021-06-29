@@ -136,9 +136,10 @@ object Form1: TForm1
     Top = 192
     Width = 75
     Caption = 'Reset'
+    OnClick = buttonResetClick
     TabOrder = 7
   end
-  object Label1: TLabel
+  object labelAuthorInfo: TLabel
     Left = 810
     Height = 15
     Top = 386

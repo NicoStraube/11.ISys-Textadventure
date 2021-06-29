@@ -24,7 +24,7 @@ type
     inventoryItem2Image: TImage;
     inventoryItem3Image: TImage;
     imageContainer: TImage;
-    Label1: TLabel;
+    labelAuthorInfo: TLabel;
     labelInventory3: TLabel;
     labelInventory2: TLabel;
     labelInventory1: TLabel;
@@ -33,12 +33,14 @@ type
     procedure buttonActionClick(Sender: TObject);
     procedure buttonEastClick(Sender: TObject);
     procedure buttonNorthClick(Sender: TObject);
+    procedure buttonResetClick(Sender: TObject);
     procedure buttonSouthClick(Sender: TObject);
     procedure buttonStartClick(Sender: TObject);
     procedure buttonWestClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure changeRoom(toRoom: TRoom);
     function isEntryAllowed(toRoom: TRoom): boolean;
+    procedure initGame();
     // procedure drawInitialMap();
     // procedure updateMap();
   private
@@ -80,6 +82,19 @@ begin
   rooms[4] := pool;
   rooms[5] := diningHall;
 
+  initGame();
+
+  // TODOs
+  // Load images and store in room-object (maybe implement caching in a future release)
+  // Draw a map (not required, maybe in a future release)
+end;
+
+
+// initGame
+procedure TForm1.initGame();
+begin
+  step := -1;
+
   // Customize each room
   street.setAdjoiningRooms(reception, nil, nil, nil);
   street.setDescription(
@@ -87,6 +102,7 @@ begin
   street.setDescriptionEntered(
     'Ihr Gepäck wurde von der Straße aufgenommen, Sie wollen sich nun etwas im Hotel umschauen.');
   street.setMapPosition('3;5');
+  street.setIsEntered(False);
   street.setHasItem(True);
   street.setRequiresKeyCard(False);
 
@@ -96,6 +112,7 @@ begin
   reception.setDescriptionEntered(
     'Sie haben eingecheckt und Ihre Schlüsselkarte bereits erhalten. Sie können sich weiter im Hotel umschauen.');
   reception.setMapPosition('3;4');
+  reception.setIsEntered(False);
   reception.setHasItem(True);
   reception.setRequiresKeyCard(False);
 
@@ -105,6 +122,7 @@ begin
   guestRoom.setDescriptionEntered(
     'Sie haben Ihr Zimmer nun eingerichtet und wollen sich den Pool anschauen, besorgen Sie sich ein Handtuch.');
   guestRoom.setMapPosition('3;3');
+  guestRoom.setIsEntered(False);
   guestRoom.setHasItem(False);
   guestRoom.setRequiresKeyCard(True);
 
@@ -113,8 +131,9 @@ begin
     'Auf dem Waschbecken liegt ein frisches Handtuch, Sie können es aufnehmen.');
   bathRoom.setDescriptionEntered('Sie haben Ihr Handtuch bereits abgeholt.');
   bathRoom.setMapPosition('3;2');
+  bathRoom.setIsEntered(False);
   bathRoom.setHasItem(True);
-  bathROom.setRequiresKeyCard(True);
+  bathRoom.setRequiresKeyCard(True);
 
   pool.setAdjoiningRooms(nil, reception, nil, nil);
   pool.setDescription(
@@ -122,6 +141,7 @@ begin
   pool.setDescriptionEntered(
     'Sie haben Ihren Platz reserviert und können später baden gehen. \nDurch Ihre Anreise fühlen Sie sich nun sehr erschöpft, suchen Sie den Speisesaal auf.');
   pool.setMapPosition('2;4');
+  pool.setIsEntered(False);
   pool.setHasItem(False);
   pool.setRequiresKeyCard(True);
 
@@ -131,6 +151,7 @@ begin
   diningHall.setDescriptionEntered(
     'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. :)');
   diningHall.setMapPosition('4;4');
+  diningHall.setIsEntered(False);
   diningHall.setHasItem(False);
   diningHall.setRequiresKeyCard(True);
 
@@ -146,13 +167,38 @@ begin
   buttonEast.Enabled := False;
   buttonSouth.Enabled := False;
   buttonWest.Enabled := False;
+
   buttonAction.Enabled := False;
   buttonReset.Enabled := False;
+end;
 
-  // Load images and store in room-object (maybe implement caching in a future release)
 
-  // Draw a map (not required, maybe in a future release)
-  // drawInitialMap();
+// start
+procedure TForm1.buttonStartClick(Sender: TObject);
+begin
+  memo.Lines.Clear;
+  buttonStart.Enabled := False;
+  buttonAction.Enabled := True;
+  buttonReset.Enabled := True;
+
+  changeRoom(street);
+end;
+
+// reset
+procedure TForm1.buttonResetClick(Sender: TObject);
+begin
+  imageContainer.Picture.Assign(nil);
+
+  labelInventory1.Caption := '';
+  labelInventory2.Caption := '';
+  labelInventory3.Caption := '';
+
+  inventoryItem1Image.Picture.Assign(nil);
+  inventoryItem2Image.Picture.Assign(nil);
+  inventoryItem3Image.Picture.Assign(nil);
+
+  initGame();
+  buttonStart.Enabled := True;
 end;
 
 
@@ -220,17 +266,6 @@ begin
     buttonWest.Enabled := False;
 end;
 
-// start
-procedure TForm1.buttonStartClick(Sender: TObject);
-begin
-  memo.Lines.Clear;
-  buttonStart.Enabled := False;
-  buttonAction.Enabled := True;
-  // buttonReset.Enabled := True;
-
-  changeRoom(street);
-end;
-
 
 // North
 procedure TForm1.buttonNorthClick(Sender: TObject);
@@ -257,7 +292,7 @@ begin
 end;
 
 
-// Action
+// action
 procedure TForm1.buttonActionClick(Sender: TObject);
 begin
   case currentRoom.getRoomId() of
