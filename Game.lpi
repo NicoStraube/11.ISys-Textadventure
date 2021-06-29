@@ -11,9 +11,27 @@
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
-        <DpiAware Value="True"/>
+        <TextName Value="de.nicostraube.isys11.textadventure"/>
+        <TextDesc Value="Project for 11.ISys, Textadventure"/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="15">
+        <Resource_0 FileName="assets\images\00luggage.jpg" Type="RCDATA" ResourceName="00LUGGAGE"/>
+        <Resource_1 FileName="assets\images\01keycard.jpg" Type="RCDATA" ResourceName="01KEYCARD"/>
+        <Resource_2 FileName="assets\images\02towel.jpg" Type="RCDATA" ResourceName="02TOWEL"/>
+        <Resource_3 FileName="assets\images\Badezimmer_entered.jpg" Type="RCDATA" ResourceName="BADEZIMMER_ENTERED"/>
+        <Resource_4 FileName="assets\images\Badezimmer_n-entered.jpg" Type="RCDATA" ResourceName="BADEZIMMER_N-ENTERED"/>
+        <Resource_5 FileName="assets\images\Gästezimmer_entered.jpg" Type="RCDATA" ResourceName="GÄSTEZIMMER_ENTERED"/>
+        <Resource_6 FileName="assets\images\Gästezimmer_n-entered.jpg" Type="RCDATA" ResourceName="GÄSTEZIMMER_N-ENTERED"/>
+        <Resource_7 FileName="assets\images\Pool_entered.jpg" Type="RCDATA" ResourceName="POOL_ENTERED"/>
+        <Resource_8 FileName="assets\images\Pool_n-entered.jpg" Type="RCDATA" ResourceName="POOL_N-ENTERED"/>
+        <Resource_9 FileName="assets\images\Rezeption_entered.jpg" Type="RCDATA" ResourceName="REZEPTION_ENTERED"/>
+        <Resource_10 FileName="assets\images\Rezeption_n-entered.jpg" Type="RCDATA" ResourceName="REZEPTION_N-ENTERED"/>
+        <Resource_11 FileName="assets\images\Speisesaal_entered.jpg" Type="RCDATA" ResourceName="SPEISESAAL_ENTERED"/>
+        <Resource_12 FileName="assets\images\Speisesaal_n-entered.jpg" Type="RCDATA" ResourceName="SPEISESAAL_N-ENTERED"/>
+        <Resource_13 FileName="assets\images\Straße_entered.jpg" Type="RCDATA" ResourceName="STRASSE_ENTERED"/>
+        <Resource_14 FileName="assets\images\Straße_n-entered.jpg" Type="RCDATA" ResourceName="STRASSE_N-ENTERED"/>
+      </Resources>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

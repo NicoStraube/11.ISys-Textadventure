@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="127"/>
+        <TopLine Value="40"/>
         <CursorPos X="34" Y="154"/>
         <FoldState Value=" T3iN0N01117P"/>
         <ComponentState Value="1"/>
@@ -67,7 +67,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="389"/>
         <CursorPos Y="407"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="20"/>
       </Unit6>
       <Unit7>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\objpash.inc"/>
