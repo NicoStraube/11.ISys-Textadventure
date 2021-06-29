@@ -5,6 +5,12 @@
 
 <hr>
 
+As of June 29th, 2021 at 22:50 pm:
+
+- It's now possible to see the current position on a map.
+
+<br>
+
 As of June 29th, 2021 at 17:25 pm:
 
 - It's now possible to reset the game in runtime.
