@@ -74,7 +74,7 @@ type
 var
   Form1: TForm1;
   // Represents at which point the user is in the game
-  step: integer = -1;
+  step: integer = -2;
 
   // rooms
   rooms: array [0..5] of TRoom;
@@ -115,8 +115,6 @@ end;
 // initGame
 procedure TForm1.initGame();
 begin
-  step := -1;
-
   // Customize each room
   street.setAdjoiningRooms(reception, nil, nil, nil);
   street.setDescription(
@@ -203,16 +201,21 @@ var
   indexX, indexY: integer;
 
 begin
+  // Cast the object to TStringGrid to use it in the following code
   grid := Sender as TStringGrid;
 
+  // Loop through the rooms and draw the position on the map
   for tmpRoom in rooms do
   begin
+    // Split the coordinates
     indexX := StrToInt(tmpRoom.getMapPosition().Split(';')[0]);
     indexY := StrToInt(tmpRoom.getMapPosition().Split(';')[1]);
     if ((aCol = indexX) and (aRow = indexY)) then
     begin
-      if (isEntryAllowed(tmpRoom)) then
+      // Prevent displaying rooms a user can't enter AND check if game has started
+      if ((step > -2) and (isEntryAllowed(tmpRoom))) then
         if (tmpRoom.Equals(currentRoom)) then
+          // The current room is displayed in green
           grid.Canvas.Brush.Color := clGreen
         else
           grid.canvas.Brush.Color := clGray;
@@ -224,17 +227,22 @@ end;
 // start
 procedure TForm1.buttonStartClick(Sender: TObject);
 begin
+  step := -1;
+
   memo.Lines.Clear;
   buttonStart.Enabled := False;
   buttonAction.Enabled := True;
   buttonReset.Enabled := True;
 
+  // Start with the inital room
   changeRoom(street);
 end;
 
 // reset
 procedure TForm1.buttonResetClick(Sender: TObject);
 begin
+  // Clear everything
+  step := -2;
   imageContainer.Picture.Assign(nil);
 
   labelInventory1.Caption := '';
@@ -246,6 +254,7 @@ begin
   inventoryItem3Image.Picture.Assign(nil);
 
   initGame();
+  // Re-draw map
   stringGrid.Refresh;
   buttonStart.Enabled := True;
 end;
@@ -345,6 +354,7 @@ end;
 // action
 procedure TForm1.buttonActionClick(Sender: TObject);
 begin
+  // Loop through the rooms
   case currentRoom.getRoomId() of
     // street:0
     0:
@@ -381,7 +391,7 @@ begin
       begin
         if (labelInventory1.Caption <> 'Gepäck') then
         begin
-          // Call changeRoom here because the procedure is ended at this point (I dont know, why I did that O.o)
+          // Call changeRoom here because the procedure is ended at this point (I dont know why I did that O.o)
           // changeRoom(currentRoom);
           exit;
         end;
