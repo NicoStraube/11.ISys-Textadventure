@@ -287,6 +287,15 @@ begin
   if (currentRoom = nil) then
     Close;
 
+  // Make sure the \assets\images folder is present to display the pictures
+  if (not isAssetsPresent) then
+  begin
+    ShowMessage('Das Spiel kann nicht fortgeführt werden, die assets sind nicht vorhanden. '
+      + #13#10 +
+      'Der Ordner "assets" aus der .zip muss sich im gleichen Verzeichnis wie die .exe befinden.');
+    exit;
+  end;
+
   // Print where the user is currently at
   memo.Lines.Add(currentRoom.getWhereAmI().Replace('\n', #13#10));
   stringGrid.Refresh;
