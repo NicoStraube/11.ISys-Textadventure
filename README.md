@@ -5,7 +5,7 @@
 How to play the game:
 
 - First you need to download the latest version, found on the right under 'Releases'.
-- Then you need to open zip - the folder 'assets' **needs** to be in the same directory as the .exe!
+- Then you need to open the zip - the folder 'assets' **needs** to be in the same directory as the .exe!
 - At least you just need to open the .exe. Maybe your antivirus wants to block this but you can trust the application, there is no malicious code.
 
 <hr>
