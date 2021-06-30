@@ -61,6 +61,7 @@ type
     procedure changeRoom(toRoom: TRoom);
     function isEntryAllowed(toRoom: TRoom): boolean;
     procedure initGame();
+    function isAssetsPresent(): boolean;
     procedure stringGridPrepareCanvas(Sender: TObject; aCol, aRow: integer;
       aState: TGridDrawState);
   private
@@ -213,10 +214,27 @@ begin
   end;
 end;
 
+// check if assets folder is
+function TForm1.isAssetsPresent(): boolean;
+begin
+  if (DirectoryExists(GetCurrentDir + '\assets\images')) then
+    Result := True
+  else
+    Result := False;
+end;
 
 // start
 procedure TForm1.buttonStartClick(Sender: TObject);
 begin
+  // Make sure the \assets\images folder is present to display the pictures
+  if (not isAssetsPresent) then
+  begin
+    ShowMessage('Das Spiel kann nicht gestartet werden, die assets sind nicht vorhanden. '
+      + #13#10 +
+      'Der Ordner "assets" aus der .zip muss sich im gleichen Verzeichnis wie die .exe befinden.');
+    exit;
+  end;
+
   step := -1;
 
   memo.Lines.Clear;
