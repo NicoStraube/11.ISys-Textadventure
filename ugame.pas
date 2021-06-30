@@ -158,7 +158,7 @@ begin
   diningHall.setDescription(
     'Mhhhm, hier duftet es wunderbar, all das leckere Essen.');
   diningHall.setDescriptionEntered(
-    'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. :)');
+    'Das Textadventure ist nun beendet, Sie können sich weiterhin frei bewegen. \nVielen Dank fürs Spielen. ;)');
   diningHall.setIsEntered(False);
   diningHall.setHasItem(False);
   diningHall.setRequiresKeyCard(True);
