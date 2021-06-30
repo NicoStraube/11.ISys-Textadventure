@@ -103,10 +103,6 @@ begin
   rooms[5] := diningHall;
 
   initGame();
-
-  // TODOs
-  // Load images and store in room-object (maybe implement caching in a future release)
-  // Draw a map (not required, maybe in a future release)
 end;
 
 
@@ -182,6 +178,8 @@ begin
 
   buttonAction.Enabled := False;
   buttonReset.Enabled := False;
+
+  { TODO 1 -oNico Straube : Cache pictures and don't load again and again from file while runtime }
 end;
 
 // Responsible for the display of the map
