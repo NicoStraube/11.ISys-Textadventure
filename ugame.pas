@@ -223,6 +223,7 @@ begin
     Result := False;
 end;
 
+
 // start
 procedure TForm1.buttonStartClick(Sender: TObject);
 begin
