@@ -20,9 +20,15 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
         <IsVisibleTab Value="True"/>
+<<<<<<< Updated upstream
         <TopLine Value="187"/>
         <CursorPos X="76" Y="229"/>
         <FoldState Value=" T3j10J224 piZmd033t"/>
+=======
+        <TopLine Value="217"/>
+        <CursorPos X="27" Y="463"/>
+        <FoldState Value=" T3j10J2 pjFk1064]9Ijf034p"/>
+>>>>>>> Stashed changes
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
