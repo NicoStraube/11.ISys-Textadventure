@@ -214,7 +214,7 @@ begin
   end;
 end;
 
-// check if assets folder is
+// check if assets folder is present
 function TForm1.isAssetsPresent(): boolean;
 begin
   if (DirectoryExists(GetCurrentDir + '\assets\images')) then
