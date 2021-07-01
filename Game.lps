@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UGame"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="88"/>
-        <CursorPos X="37" Y="217"/>
+        <TopLine Value="218"/>
+        <CursorPos X="32" Y="464"/>
         <FoldState Value=" T3j10J2 pjFk1064]9Ijg0348"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>

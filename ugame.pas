@@ -461,6 +461,6 @@ begin
   changeRoom(currentRoom);
 end;
 
-// Jenney, die blöde Taube stinkt. :)
+// Jenney is ne blöde Taube und stinkt. :)
 
 end.
